@@ -1,0 +1,16 @@
+version: "2"
+
+linters:
+  enable:
+    - misspell
+    - revive
+    - unconvert
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/qase-tms/tiden-telemetry-go
