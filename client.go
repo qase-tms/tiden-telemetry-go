@@ -84,6 +84,43 @@ func (c *Client) CaptureException(err error) string {
 	return c.capture(ev)
 }
 
+// CaptureExceptionAt reports an error that a handler returned, and puts the
+// handler's source location last in the stack. srv is the registered service
+// implementation and method is the bare Go method name, for example
+// "CreateBranch". Without it the stack holds only the reporting code (such as
+// an interceptor), because the handler has already returned. When the method
+// cannot be resolved, it behaves like CaptureException.
+func (c *Client) CaptureExceptionAt(err error, srv any, method string) string {
+	return c.captureExceptionAt(err, srv, method)
+}
+
+// captureExceptionAt is the shared implementation. Both entry points are called
+// directly by user code, so skipping 2 frames omits this function and the entry
+// point, and the first reported frame is the user's caller.
+func (c *Client) captureExceptionAt(err error, srv any, method string) string {
+	if err == nil {
+		return ""
+	}
+	st := newStacktrace(2)
+	if origin, ok := resolveMethodFrame(srv, method); ok {
+		// The capture-site frames are reporting code, never the cause.
+		if st == nil {
+			st = &Stacktrace{}
+		}
+		for i := range st.Frames {
+			st.Frames[i].InApp = false
+		}
+		st.Frames = append(st.Frames, origin)
+	}
+	ev := c.newEvent("error")
+	ev.Exception = &exceptionValues{Values: []Exception{{
+		Type:       reflect.TypeOf(err).String(),
+		Value:      err.Error(),
+		Stacktrace: st,
+	}}}
+	return c.capture(ev)
+}
+
 // CaptureMessage reports a message at the given level (default "info").
 func (c *Client) CaptureMessage(message, level string) string {
 	if level == "" {

@@ -37,6 +37,16 @@ func CaptureException(err error) string {
 	return ""
 }
 
+// CaptureExceptionAt reports an error returned by a handler via the
+// package-level client, with the handler's location as the crash-site frame.
+// See Client.CaptureExceptionAt.
+func CaptureExceptionAt(err error, srv any, method string) string {
+	if c := CurrentClient(); c != nil {
+		return c.captureExceptionAt(err, srv, method)
+	}
+	return ""
+}
+
 // CaptureMessage reports a message via the package-level client.
 func CaptureMessage(message, level string) string {
 	if c := CurrentClient(); c != nil {
