@@ -1,0 +1,27 @@
+client.go
+  s_ba2ca91f5cdb45::t_c4575efcaf27a0 87-123
+stacktrace.go
+  s_ba2ca91f5cdb45::t_c4575efcaf27a0 4,7,86-152
+tiden.go
+  s_ba2ca91f5cdb45::t_c4575efcaf27a0 40-49
+capture_at_test.go
+  s_ba2ca91f5cdb45::t_c4575efcaf27a0 1-235
+README.md
+  s_ba2ca91f5cdb45::t_c4575efcaf27a0 61-88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6dae071de48c42e0fc1d5ca7ae5a8643464f05ba",
+  "prompts": {},
+  "sessions": {
+    "s_ba2ca91f5cdb45": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77198fa7-f114-4820-8429-0cbd55044f8d",
+        "model": "unknown"
+      },
+      "human_author": "Nikolay Pisarev <npisarev@qase.io>"
+    }
+  }
+}
