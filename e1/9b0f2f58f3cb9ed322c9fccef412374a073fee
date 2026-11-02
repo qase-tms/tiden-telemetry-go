@@ -1,0 +1,19 @@
+.github/workflows/ci.yml
+  s_ba2ca91f5cdb45::t_d653c7818446eb 33,35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e19b0f2f58f3cb9ed322c9fccef412374a073fee",
+  "prompts": {},
+  "sessions": {
+    "s_ba2ca91f5cdb45": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "77198fa7-f114-4820-8429-0cbd55044f8d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Nikolay Pisarev <npisarev@qase.io>"
+    }
+  }
+}
