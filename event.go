@@ -6,7 +6,7 @@ import (
 )
 
 // Version is the SDK version, reported in every event's sdk field.
-const Version = "0.1.0"
+const Version = "0.2.0"
 
 const modulePrefix = "github.com/qase-tms/tiden-telemetry-go"
 
