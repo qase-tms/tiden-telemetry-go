@@ -58,6 +58,34 @@ func worker() {
 }
 ```
 
+## gRPC handler errors
+
+When a gRPC handler returns an error, the interceptor reports it after the
+handler has already returned, so the stack shows the interceptor and not the
+handler. `CaptureExceptionAt` takes the service implementation and the method
+name and adds the handler's source location as the last frame. The SDK has no
+gRPC dependency; call it from your own interceptors:
+
+```go
+func unary(ctx context.Context, req any, info *grpc.UnaryServerInfo, h grpc.UnaryHandler) (any, error) {
+	resp, err := h(ctx, req)
+	if err != nil {
+		tiden.CaptureExceptionAt(err, info.Server, path.Base(info.FullMethod))
+	}
+	return resp, err
+}
+
+func stream(srv any, ss grpc.ServerStream, info *grpc.StreamServerInfo, h grpc.StreamHandler) error {
+	err := h(srv, ss)
+	if err != nil {
+		tiden.CaptureExceptionAt(err, srv, path.Base(info.FullMethod))
+	}
+	return err
+}
+```
+
+If the method cannot be resolved, the call behaves like `CaptureException`.
+
 ## net/http middleware
 
 Recovers panics in your handlers, reports them, and responds `500` instead of
